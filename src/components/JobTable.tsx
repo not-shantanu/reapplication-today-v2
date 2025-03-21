@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Job } from '@/lib/types';
 import JobDetails from '@/components/JobDetails';
 import { useState } from 'react';
@@ -103,9 +103,6 @@ export default function JobTable({ jobs }: JobTableProps) {
 
       <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
         <DialogContent className="max-w-3xl">
-          <DialogHeader>
-            <DialogTitle>Application Details</DialogTitle>
-          </DialogHeader>
           {selectedJob && <JobDetails job={selectedJob} />}
         </DialogContent>
       </Dialog>
