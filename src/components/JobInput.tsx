@@ -45,6 +45,8 @@ export default function JobInput({ onAddJob, onClose }: JobInputProps) {
       appliedDate: new Date().toISOString().split('T')[0],
       description: '',
       recruiterEmail: '',
+      recruiterName: '',
+      salary: '',
     },
   });
 

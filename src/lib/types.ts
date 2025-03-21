@@ -21,16 +21,12 @@ export const jobSchema = z.object({
   position: z.string().min(1, 'Position is required'),
   jobStatus: z.enum(['Remote', 'Hybrid', 'Onsite']),
   location: z.string().optional(),
-  status: z.enum(['Applied', 'Interviewing', 'Offered', 'Rejected', 'Reply Received']),
+  status: z.enum(['Applied', 'Rejected', 'Interviewing', 'Offered']),
   appliedDate: z.string(),
-  userId: z.string().optional(),
   description: z.string().optional(),
-  recruiterEmail: z.string().email('Invalid email address').min(1, 'Recruiter email is required'),
   recruiterName: z.string().optional(),
+  recruiterEmail: z.string().email('Invalid email address'),
   salary: z.string().optional(),
-  emailThreadId: z.string().optional(),
-  lastReplyDate: z.date().optional(),
-  followUpCount: z.number().optional(),
 });
 
 export type Job = z.infer<typeof jobSchema>;
