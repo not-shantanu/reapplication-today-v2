@@ -94,7 +94,7 @@ export default function AuthForm() {
     }
   };
 
-  const handleVerification = async (values: AuthFormValues) => {
+  const handleVerification = async () => {
     setIsLoading(true);
     try {
       // In a real implementation, you would verify the code here

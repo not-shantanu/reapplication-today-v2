@@ -12,7 +12,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
@@ -21,7 +20,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Building2, MapPin, Calendar, Mail, Briefcase, X } from 'lucide-react';
+import { Building2, MapPin, Mail, Briefcase, X } from 'lucide-react';
 import EmailDraft from './EmailDraft';
 import EmailPreview from './EmailPreview';
 

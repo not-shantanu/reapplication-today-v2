@@ -4,7 +4,6 @@ import AuthForm from '@/components/auth/AuthForm';
 import AuthCallback from '@/components/auth/AuthCallback';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { Toaster } from '@/components/ui/sonner';
-import { X } from 'lucide-react';
 
 function AuthenticatedApp() {
   const { user, session, loading } = useAuth();

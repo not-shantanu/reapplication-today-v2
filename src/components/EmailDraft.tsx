@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useAuth } from '@/components/auth/AuthProvider';
 
 interface EmailDraftProps {
   initialDraft: EmailDraftType;
@@ -15,7 +14,6 @@ interface EmailDraftProps {
 
 export default function EmailDraft({ initialDraft, onSave, onBack, recruiterEmail }: EmailDraftProps) {
   const [draft, setDraft] = useState<EmailDraftType>(initialDraft);
-  const { user } = useAuth();
 
   const labelStyle = "text-[14px] font-['Inter'] text-[#666666]";
 

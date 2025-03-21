@@ -26,6 +26,8 @@ export const jobSchema = z.object({
   userId: z.string().optional(),
   description: z.string().optional(),
   recruiterEmail: z.string().email('Invalid email address').min(1, 'Recruiter email is required'),
+  recruiterName: z.string().optional(),
+  salary: z.string().optional(),
   emailThreadId: z.string().optional(),
   lastReplyDate: z.date().optional(),
   followUpCount: z.number().optional(),
