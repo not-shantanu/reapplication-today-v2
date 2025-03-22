@@ -89,8 +89,8 @@ export default function FollowUpSettings({ job, onComplete }: FollowUpSettingsPr
           scheduledDate,
           emailSubject: values.subjects[i],
           emailBody: values.bodies[i]
-            .replace('[Position]', job.position)
-            .replace('[Company]', job.company),
+            .replace('[Position]', job.position || '')
+            .replace('[Company]', job.company || ''),
           status: 'pending',
           timing: values.timing[i],
         });

@@ -107,10 +107,10 @@ export default function Dashboard() {
           user_id: user?.id,
           company: job.company,
           position: job.position,
-          job_status: job.jobStatus,
+          job_status: job.status,
           location: job.location,
           status: job.status,
-          applied_date: new Date(job.appliedDate).toISOString().split('T')[0],
+          applied_date: job.appliedDate ? new Date(job.appliedDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
           description: job.description,
           recruiter_email: job.recruiterEmail,
         }])

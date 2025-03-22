@@ -16,7 +16,6 @@ import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 import Logo from '@/components/Logo';
 import ResetPassword from './ResetPassword';
-import { sendPasswordResetEmail } from '@/lib/email';
 import { nanoid } from 'nanoid';
 
 const authSchema = z.object({

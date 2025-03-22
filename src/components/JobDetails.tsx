@@ -3,7 +3,7 @@ import { Job } from '@/lib/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Building2, MapPin, Calendar, Mail, User } from 'lucide-react';
+import { Building2, MapPin, Calendar, User } from 'lucide-react';
 import FollowUpSettings from './FollowUpSettings';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 
@@ -45,7 +45,7 @@ export default function JobDetails({ job }: JobDetailsProps) {
                 <div>
                   <div className="font-medium">Applied Date</div>
                   <div className="text-gray-600">
-                    {new Date(job.appliedDate).toLocaleDateString()}
+                    {job.appliedDate ? new Date(job.appliedDate).toLocaleDateString() : 'Not specified'}
                   </div>
                 </div>
               </div>
@@ -54,15 +54,8 @@ export default function JobDetails({ job }: JobDetailsProps) {
               <div className="flex items-center gap-2">
                 <User className="h-5 w-5 text-gray-500" />
                 <div>
-                  <div className="font-medium">Recruiter Name</div>
-                  <div className="text-gray-600">{job.recruiterName || 'Not specified'}</div>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail className="h-5 w-5 text-gray-500" />
-                <div>
                   <div className="font-medium">Recruiter Email</div>
-                  <div className="text-gray-600">{job.recruiterEmail}</div>
+                  <div className="text-gray-600">{job.recruiterEmail || 'Not specified'}</div>
                 </div>
               </div>
             </div>

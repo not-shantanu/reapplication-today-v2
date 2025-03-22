@@ -37,15 +37,13 @@ export default function JobInput({ onAddJob, onClose }: JobInputProps) {
   const form = useForm<Job>({
     resolver: zodResolver(jobSchema),
     defaultValues: {
-      company: '',
       position: '',
-      jobStatus: 'Remote',
+      company: '',
       location: '',
-      status: 'Applied',
+      status: 'Remote',
       appliedDate: new Date().toISOString().split('T')[0],
       description: '',
       recruiterEmail: '',
-      recruiterName: '',
       salary: '',
     },
   });
@@ -88,7 +86,7 @@ I am writing to express my interest in the [Position] role at [Company]...
     return (
       <EmailPreview
         draft={emailDraft}
-        recruiterEmail={form.getValues().recruiterEmail}
+        recruiterEmail={form.getValues().recruiterEmail || ''}
         onBack={() => setStep('email')}
         onSend={handleEmailSend}
       />
@@ -101,7 +99,7 @@ I am writing to express my interest in the [Position] role at [Company]...
         initialDraft={emailDraft}
         onSave={handleEmailEdit}
         onBack={() => setStep('details')}
-        recruiterEmail={form.getValues().recruiterEmail}
+        recruiterEmail={form.getValues().recruiterEmail || ''}
       />
     );
   }
@@ -174,14 +172,14 @@ I am writing to express my interest in the [Position] role at [Company]...
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="jobStatus"
+                    name="status"
                     render={({ field }) => (
-                      <FormItem className="px-3">
-                        <FormLabel className={labelStyle}>Job Type</FormLabel>
+                      <FormItem>
+                        <FormLabel>Status</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger className="w-full px-3 py-2">
-                              <SelectValue placeholder="Select job type" />
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a status" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>

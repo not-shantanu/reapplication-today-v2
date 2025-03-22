@@ -47,12 +47,10 @@ export default function MyAccount() {
         });
 
       if (error) {
-        // If error is bucket not found, create it
+        // If error is bucket not found, show a more helpful message
         if (error.message.includes('Bucket not found')) {
-          const { error: createError } = await supabase.storage
-            .createBucket('resumes', { public: true });
-          if (createError) throw createError;
-          // Return empty array since bucket was just created
+          console.error('Resume storage bucket not found. Please contact support.');
+          toast.error('Resume storage not configured. Please try again later.');
           setResumes([]);
           setActiveResumeId(null);
           return;
@@ -72,7 +70,7 @@ export default function MyAccount() {
       setActiveResumeId(profileData?.active_resume_id || null);
     } catch (error: any) {
       console.error('Error fetching resumes:', error);
-      toast.error('Failed to load resumes');
+      toast.error(error.message || 'Failed to load resumes');
     }
   };
 

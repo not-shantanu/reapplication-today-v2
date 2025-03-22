@@ -1,4 +1,5 @@
 import { handlePasswordUpdate } from '@/server/api';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export default async function handler(req: Request) {
   if (req.method !== 'POST') {
@@ -18,7 +19,7 @@ export default async function handler(req: Request) {
       });
     }
 
-    const result = await handlePasswordUpdate(token, newPassword);
+    const result = await handlePasswordUpdate(token, newPassword, supabaseAdmin);
 
     return new Response(JSON.stringify(result), {
       status: result.success ? 200 : 400,

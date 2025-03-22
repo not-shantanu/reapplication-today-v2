@@ -3,7 +3,7 @@ import { z } from 'zod';
 export type JobStatus = 'Applied' | 'Interviewing' | 'Offered' | 'Rejected' | 'Reply Received';
 export type WorkType = 'Remote' | 'Hybrid' | 'Onsite';
 export type FollowUpStatus = 'pending' | 'sent' | 'cancelled' | 'reply_received';
-export type FollowUpTiming = 'immediate' | 'tomorrow' | 'custom';
+export type FollowUpTiming = 'days' | 'weeks' | 'months';
 
 export const followUpSchema = z.object({
   id: z.string().optional(),
@@ -17,16 +17,15 @@ export const followUpSchema = z.object({
 
 export const jobSchema = z.object({
   id: z.string().optional(),
-  company: z.string().min(1, 'Company name is required'),
-  position: z.string().min(1, 'Position is required'),
-  jobStatus: z.enum(['Remote', 'Hybrid', 'Onsite']),
-  location: z.string().optional(),
-  status: z.enum(['Applied', 'Rejected', 'Interviewing', 'Offered']),
+  position: z.string(),
+  company: z.string(),
+  location: z.string(),
+  salary: z.string().optional(),
+  status: z.string(),
   appliedDate: z.string(),
   description: z.string().optional(),
-  recruiterName: z.string().optional(),
-  recruiterEmail: z.string().email('Invalid email address'),
-  salary: z.string().optional(),
+  recruiterEmail: z.string().optional(),
+  userId: z.string(),
 });
 
 export type Job = z.infer<typeof jobSchema>;

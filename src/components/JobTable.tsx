@@ -70,7 +70,7 @@ export default function JobTable({ jobs }: JobTableProps) {
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded bg-gray-100 flex items-center justify-center">
-                      {job.company.charAt(0)}
+                      {job.company?.charAt(0) || '?'}
                     </div>
                     <span className="font-medium">{job.company}</span>
                   </div>
@@ -78,14 +78,14 @@ export default function JobTable({ jobs }: JobTableProps) {
                 <TableCell>{job.position}</TableCell>
                 <TableCell>
                   <div>
-                    {job.jobStatus}
+                    {job.status}
                     {job.location && (
                       <div className="text-sm text-gray-500">{job.location}</div>
                     )}
                   </div>
                 </TableCell>
                 <TableCell>{job.salary}</TableCell>
-                <TableCell>{new Date(job.appliedDate).toLocaleDateString()}</TableCell>
+                <TableCell>{job.appliedDate ? new Date(job.appliedDate).toLocaleDateString() : 'Not specified'}</TableCell>
                 <TableCell>
                   <span
                     className={`px-2 py-1 rounded-full text-sm font-medium ${
