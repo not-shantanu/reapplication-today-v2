@@ -35,27 +35,15 @@ lerna-debug.log*
 # Supabase
 .supabase/
 **/supabaseAdmin.ts
+**/supabaseAdmin.js
+**/supabaseAdmin.d.ts
 
-# Logs
-logs
-*.log
-
-# Dependencies
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Build artifacts
+*.tsbuildinfo
+*.js.map
+*.d.ts
+*.js
+!vite.config.js
 
 # Environment files
 .env
@@ -64,10 +52,3 @@ dist-ssr
 .env.production
 .env.development.local
 .env.production.local
-
-# Build artifacts
-*.tsbuildinfo
-*.js.map
-*.d.ts
-*.js
-!vite.config.js
