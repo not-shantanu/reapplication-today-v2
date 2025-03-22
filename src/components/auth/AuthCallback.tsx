@@ -63,7 +63,7 @@ export default function AuthCallback() {
           window.location.href = '/settings';
         } else {
           toast.success('Successfully signed in!');
-          window.location.href = '/';
+          window.location.href = '/dashboard';
         }
       } catch (error: any) {
         console.error('Error handling callback:', error);

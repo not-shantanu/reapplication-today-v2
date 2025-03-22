@@ -15,6 +15,9 @@ import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 import Logo from '@/components/Logo';
+import ResetPassword from './ResetPassword';
+import { sendPasswordResetEmail } from '@/lib/email';
+import { nanoid } from 'nanoid';
 
 const authSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -29,6 +32,7 @@ export default function AuthForm() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showResetPassword, setShowResetPassword] = useState(false);
   const [email, setEmail] = useState('');
 
   const form = useForm<AuthFormValues>({
@@ -120,6 +124,58 @@ export default function AuthForm() {
     }
   };
 
+  const handleForgotPassword = async (email: string) => {
+    setIsLoading(true);
+    try {
+      const resetToken = nanoid(32);
+      console.log('Initiating password reset for:', email);
+      
+      // Send the reset email using our API endpoint
+      const response = await fetch('http://localhost:5178/api/send-password-reset', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          email, 
+          resetToken 
+        }),
+      });
+
+      console.log('Reset request response status:', response.status);
+      const responseText = await response.text();
+      console.log('Reset request response:', responseText);
+
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Failed to parse response:', parseError);
+        throw new Error('Invalid server response');
+      }
+
+      if (!response.ok) {
+        throw new Error(result?.error || 'Failed to send reset email');
+      }
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to send reset email');
+      }
+
+      toast.success('Password reset link sent to your email');
+      form.reset();
+    } catch (error: any) {
+      console.error('Error sending reset link:', error);
+      toast.error(error.message || 'Failed to send reset link');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (showResetPassword) {
+    return <ResetPassword onBack={() => setShowResetPassword(false)} />;
+  }
+
   return (
     <div className="w-full max-w-[400px] mx-auto bg-white rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.1)] p-8">
       <div className="flex justify-center mb-8">
@@ -135,7 +191,32 @@ export default function AuthForm() {
           type="button"
           variant="outline"
           className="w-full h-11 font-normal border border-gray-300 bg-white hover:bg-gray-50"
-          onClick={() => toast.info('Google sign-in coming soon')}
+          onClick={async () => {
+            try {
+              setIsLoading(true);
+              const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                  redirectTo: `${window.location.origin}/auth/callback`,
+                  queryParams: {
+                    access_type: 'offline',
+                    prompt: 'select_account',
+                    scope: 'https://www.googleapis.com/auth/gmail.send email profile',
+                  },
+                },
+              });
+
+              if (error) throw error;
+              if (!data.url) throw new Error('No OAuth URL returned');
+
+              window.location.href = data.url;
+            } catch (error) {
+              console.error('Error signing in with Google:', error);
+              toast.error('Failed to sign in with Google');
+              setIsLoading(false);
+            }
+          }}
+          disabled={isLoading}
         >
           <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
             <path
@@ -252,7 +333,14 @@ export default function AuthForm() {
                 <button
                   type="button"
                   className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                  onClick={() => toast.info('Password reset functionality coming soon')}
+                  onClick={() => {
+                    const email = form.getValues('email');
+                    if (!email) {
+                      toast.error('Please enter your email address');
+                      return;
+                    }
+                    handleForgotPassword(email);
+                  }}
                 >
                   Reset password
                 </button>

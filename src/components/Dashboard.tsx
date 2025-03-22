@@ -46,10 +46,12 @@ export default function Dashboard() {
 
   const fetchJobs = async () => {
     try {
+      if (!user?.id) return;
+
       const { data, error } = await supabase
         .from('jobs')
         .select('*')
-        .eq('user_id', user?.id)
+        .eq('user_id', user.id)
         .order('applied_date', { ascending: false });
 
       if (error) throw error;
@@ -64,7 +66,9 @@ export default function Dashboard() {
       updateStats(formattedJobs);
     } catch (error) {
       console.error('Error fetching jobs:', error);
-      toast.error('Failed to load jobs');
+      if (error instanceof Error) {
+        toast.error(error.message || 'Failed to load jobs');
+      }
     }
   };
 

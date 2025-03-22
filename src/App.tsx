@@ -2,16 +2,14 @@ import { AuthProvider } from '@/components/auth/AuthProvider';
 import Dashboard from '@/components/Dashboard';
 import AuthForm from '@/components/auth/AuthForm';
 import AuthCallback from '@/components/auth/AuthCallback';
+import ResetPasswordCallback from '@/components/auth/ResetPasswordCallback';
+import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { Toaster } from '@/components/ui/sonner';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-function AuthenticatedApp() {
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, session, loading } = useAuth();
-
-  // Handle the callback route
-  if (window.location.pathname === '/auth/callback') {
-    return <AuthCallback />;
-  }
 
   if (loading) {
     return (
@@ -23,12 +21,20 @@ function AuthenticatedApp() {
     );
   }
 
-  // If we have a session and user, show the dashboard
+  if (!session || !user) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}
+
+function AuthenticatedApp() {
+  const { user, session } = useAuth();
+
   if (session && user) {
     return <Dashboard />;
   }
 
-  // Otherwise, show the auth form
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-t from-[#dfe9f3] to-white">
       <AuthForm />
@@ -39,7 +45,20 @@ function AuthenticatedApp() {
 function App() {
   return (
     <AuthProvider>
-      <AuthenticatedApp />
+      <Routes>
+        <Route path="/" element={<AuthenticatedApp />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/auth/reset-password/callback" element={<ResetPasswordCallback />} />
+        <Route path="/auth/reset-password" element={<ResetPasswordForm />} />
+        <Route
+          path="/dashboard/*"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
       <Toaster 
         closeButton
         richColors
